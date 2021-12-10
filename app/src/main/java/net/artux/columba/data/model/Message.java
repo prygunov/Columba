@@ -3,6 +3,7 @@ package net.artux.columba.data.model;
 import java.util.Date;
 
 public class Message {
+
     private String messageText;
     private String messageUser;
     private long ts;

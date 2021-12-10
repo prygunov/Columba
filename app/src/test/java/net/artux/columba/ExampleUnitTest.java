@@ -4,6 +4,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -12,6 +23,15 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        try {
+            String key = Security.generatePrivateKey();
+            Security security = new Security(key);
+            System.out.println(key);
+            String s = security.encrypt("ss");
+            System.out.println(s);
+            assertEquals(security.decrypt(s), "ss");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -28,8 +28,7 @@
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/profile_image"
         android:maxLines="1"
-        android:paddingTop="2dp"
-        android:text="msg" />
+        android:paddingTop="2dp" />
 
     <TextView
         android:id="@+id/time"

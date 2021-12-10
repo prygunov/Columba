@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="net.artux.columba.ui.main.fragments.home.HomeFragment"
+        android:name="net.artux.columba.ui.main.fragments.home.ChannelsFragment"
         android:label="@string/title_channels"
         tools:layout="@layout/fragment_home" />
 

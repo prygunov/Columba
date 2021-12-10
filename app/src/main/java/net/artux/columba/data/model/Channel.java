@@ -7,8 +7,9 @@ public class Channel implements Serializable {
 
     private String uid;
     private String title;
+    private String icon;
     private List<String> usersUIDs;
-    private String lastMessage = "";
+    private String lastMessageId;
 
     public Channel() {
     }
@@ -19,8 +20,8 @@ public class Channel implements Serializable {
         this.usersUIDs = usersUIDs;
     }
 
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setLastMessageId(String lastMessageId) {
+        this.lastMessageId = lastMessageId;
     }
 
     public String getUid() {
@@ -35,7 +36,23 @@ public class Channel implements Serializable {
         return usersUIDs;
     }
 
-    public String getLastMessage() {
-        return lastMessage;
+    public void setUsersUIDs(List<String> usersUIDs) {
+        this.usersUIDs = usersUIDs;
+    }
+
+    public String getLastMessageId() {
+        return lastMessageId;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

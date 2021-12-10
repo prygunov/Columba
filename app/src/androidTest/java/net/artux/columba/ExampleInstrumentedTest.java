@@ -22,5 +22,12 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("net.artux.columba", appContext.getPackageName());
+        try {
+            Security security = new Security(Security.generatePrivateKey());
+            assertEquals(security.decrypt(security.encrypt("ss")), "ss");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
