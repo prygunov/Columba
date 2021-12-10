@@ -67,12 +67,20 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
             if (channel.getIcon() != null && !channel.getIcon().equals(""))
                 Glide.with(imageView).load(channel.getIcon()).into(imageView);
             itemView.setOnClickListener(view -> listener.clicked(channel));
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    listener.longClicked(channel);
+                    return true;
+                }
+            });
         }
     }
 
     interface ChannelClickListener{
 
         void clicked(Channel channel);
+        void longClicked(Channel channel);
 
     }
 

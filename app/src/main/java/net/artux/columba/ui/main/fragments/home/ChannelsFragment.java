@@ -45,6 +45,10 @@ public class ChannelsFragment extends Fragment implements ChannelsAdapter.Channe
             .getReference()
             .child("channels");
 
+    private DatabaseReference messagesReference = FirebaseDatabase.getInstance("https://columba-73cc9-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference()
+            .child("messages");
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -100,5 +104,20 @@ public class ChannelsFragment extends Fragment implements ChannelsAdapter.Channe
         Intent intent = new Intent(requireActivity(), ChatActivity.class);
         intent.putExtra("channel", channel);
         startActivity(intent);
+    }
+
+    @Override
+    public void longClicked(Channel channel) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(requireContext());
+
+        builder.setMessage("Удалить канал?").
+                setPositiveButton("Да", (dialogInterface, i) -> {
+                    reference.child(channel.getUid()).removeValue();
+                    messagesReference.child(channel.getUid()).removeValue();
+                }).
+                setNegativeButton("Нет", ((dialogInterface, i) -> {}));
+
+        builder.create().show();
     }
 }
