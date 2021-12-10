@@ -16,7 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 import net.artux.columba.data.model.Channel;
 import net.artux.columba.data.model.Message;
 import net.artux.columba.databinding.ActivityChatBinding;
-import net.artux.columba.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,10 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
             .getReference()
             .child("messages");
 
+    private DatabaseReference channelRef = FirebaseDatabase.getInstance("https://columba-73cc9-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference()
+            .child("channels");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +41,13 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
         if(getIntent().getSerializableExtra("channel") == null)
             finish();
 
+
+
         adapter = new MessagesAdapter(new ArrayList<>(), this);
         binding.recyclerView.setAdapter(adapter);
 
         Channel channel = (Channel) getIntent().getSerializableExtra("channel");
-
+        setTitle("Канал " + channel.getTitle());
         DatabaseReference messageRef = reference.child(channel.getUid());
         messageRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,6 +59,7 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
                     messages.add(value);
                 }
                 adapter.setMessages(messages);
+                binding.recyclerView.smoothScrollToPosition(messages.size()-1);
             }
 
             @Override
@@ -61,10 +67,21 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
 
             }
         });
+        binding.textSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.recyclerView.smoothScrollToPosition(adapter.getItemCount()-1);
+            }
+        });
+
         binding.btnSend.setOnClickListener(view -> {
             String text = binding.textSend.getText().toString();
-            if (!text.equals(""))
+            if (!text.equals("")) {
                 messageRef.push().setValue(new Message(text, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                channel.setLastMessage(text);
+                channelRef.child(channel.getUid()).setValue(channel);
+                binding.textSend.setText("");
+            }
         });
 
     }

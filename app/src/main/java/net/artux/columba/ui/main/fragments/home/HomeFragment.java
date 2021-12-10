@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import net.artux.columba.R;
 import net.artux.columba.data.model.Channel;
 import net.artux.columba.data.model.Channels;
 import net.artux.columba.databinding.FragmentHomeBinding;
@@ -89,11 +90,11 @@ public class HomeFragment extends Fragment implements ChannelsAdapter.ChannelCli
             public void onClick(View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
                 final EditText edittext = new EditText(requireContext());
-                alert.setTitle("Enter title of channel");
+                alert.setTitle(R.string.enter_name);
 
                 alert.setView(edittext);
 
-                alert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String title = edittext.getText().toString();
                         List<String> userId = Collections.singletonList(FirebaseAuth.getInstance().getUid());
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment implements ChannelsAdapter.ChannelCli
                     }
                 });
 
-                alert.setNegativeButton("Cancel", (dialog, whichButton) -> { });
+                alert.setNegativeButton(R.string.cancel, (dialog, whichButton) -> { });
 
                 alert.show();
             }

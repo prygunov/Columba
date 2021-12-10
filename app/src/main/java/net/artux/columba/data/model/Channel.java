@@ -19,6 +19,10 @@ public class Channel implements Serializable {
         this.usersUIDs = usersUIDs;
     }
 
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
     public String getUid() {
         return uid;
     }
