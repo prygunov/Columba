@@ -99,23 +99,23 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                                 channel.setUsersUIDs(ids);
                                 reference.child(shareKey.getUid()).setValue(channel);
                             } else {
-                                //TODO отключить надо после этого
                                 cache.put(shareKey.getUid(), shareKey.getPrivateKey());
                                 Toast.makeText(ScannerActivity.this, "Ключ канала добавлен", Toast.LENGTH_SHORT).show();
                             }
-                            finish();
+                            reference.removeEventListener(this);
+                            ScannerActivity.this.finish();
                         }else
                             Toast.makeText(ScannerActivity.this, "Что-то пошло не так, попробуйте снова", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        reference.removeEventListener(this);
                     }
                 });
 
             }catch (Exception e){
-                Toast.makeText(this, "Чел, ты хуйню сканировал", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "QR код не подходит, попробуйте другой", Toast.LENGTH_SHORT).show();
                 mScannerView.resumeCameraPreview(this);
                 exception.printStackTrace();
             }

@@ -13,6 +13,7 @@ import net.artux.columba.data.model.Channel;
 import net.artux.columba.data.model.Message;
 import net.artux.columba.databinding.ItemChannelBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
     List<Message> messages;
     MessageClickListener listener;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 
     public MessagesAdapter(List<Message> messages, MessageClickListener listener) {
         this.messages = messages;
@@ -64,7 +66,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         void bind(Message messageDto){
             title.setText(messageDto.getMessageUser());
             message.setText(messageDto.getMessageText());
-            time.setText(new Date(messageDto.getTs()).toString());
+            time.setText(dateFormat.format(new Date(messageDto.getTs())));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

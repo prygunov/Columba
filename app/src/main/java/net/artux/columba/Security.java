@@ -35,16 +35,27 @@ public class Security {
     {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        return Base64.getEncoder().encodeToString(cipher.doFinal(message.getBytes("UTF-8")));
+        return toBase64(cipher.doFinal(message.getBytes("UTF-8")));
     }
 
     public String decrypt(String cipherText)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException
     {
-        byte[] bytes = Base64.getDecoder().decode(cipherText);
+        byte[] bytes = fromBase64(cipherText);
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         return new String(cipher.doFinal(bytes), "UTF-8");
     }
 
+
+    public String toBase64(byte[] arr) {
+        return new String(
+                android.util.Base64.encode(arr, android.util.Base64.DEFAULT),
+                StandardCharsets.UTF_8);
+    }
+
+
+    public byte[] fromBase64(String base) {
+        return android.util.Base64.decode(base, android.util.Base64.DEFAULT);
+    }
 }

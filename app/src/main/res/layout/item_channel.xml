@@ -27,7 +27,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/profile_image"
-        android:maxLines="1"
         android:paddingTop="2dp" />
 
     <TextView
@@ -35,11 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/username"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
         android:maxLines="1"
         android:paddingTop="18dp"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:text="" />
 
 </RelativeLayout>

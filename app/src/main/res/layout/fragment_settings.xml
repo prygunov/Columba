@@ -17,6 +17,7 @@
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Ваш QR для создания контакта"/>
 
         <ImageView
@@ -39,7 +40,8 @@
             android:id="@+id/nickname"
             android:textSize="20sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="false"/>
 
         <Button
             android:id="@+id/button_sign_out"

@@ -1,6 +1,7 @@
 package net.artux.columba.ui.chat;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,13 +58,16 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
         if(getIntent().getSerializableExtra("channel") == null)
             finish();
 
+        if (getSupportActionBar()!=null)
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.toolbar)));
+
         adapter = new MessagesAdapter(new ArrayList<>(), this);
         binding.recyclerView.setAdapter(adapter);
 
         Channel channel = (Channel) getIntent().getSerializableExtra("channel");
         String privateKey = cache.get(channel.getUid());
         if(privateKey==null) {
-            Toast.makeText(getApplicationContext(), "Ключ отсутствует", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Добавьте ключ с другого устройства", Toast.LENGTH_SHORT).show();
             finish();
         }
         else {
@@ -106,11 +110,13 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
                 String text = binding.textSend.getText().toString();
                 if (!text.equals("")) {
                     try {
+                        String nickname = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                         messageRef.push().setValue(new Message(security.encrypt(text), FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                        channel.setLastMessageId(nickname + ": " + text);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    channel.setLastMessageId(text);
+
                     channelRef.child(channel.getUid()).setValue(channel);
 
                     binding.textSend.setText("");
@@ -157,7 +163,7 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
                             String title = editText.getText().toString();
                             if (!title.equals("")) {
                                 channel.setTitle(title);
-                                setTitle(title);
+                                setTitle("Канал " + title);
                                 channelRef.child(channel.getUid()).setValue(channel);
                             }
                         }).
@@ -167,7 +173,7 @@ public class ChatActivity extends AppCompatActivity implements MessagesAdapter.M
             case R.id.change_icon:
                 editText = new EditText(this);
                 editText.setText(channel.getIcon());
-                builder.setMessage("Введите новую ссылку на канал").
+                builder.setMessage("Введите новую ссылку на изображение").
                         setPositiveButton("OK", (dialogInterface, i) -> {
                             String title = editText.getText().toString();
                             if (!title.equals("")) {
